@@ -88,7 +88,7 @@ const MobileLanding = ({ scrollToContact, lastLogin, txt }) => (
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='prompt'>16Bocchi@github ~ %</span>
+                    <span className='prompt'>16Bocchi@github ~ % </span>
                 </a>
                 <span className='command'>echo I am a: </span>
                 <span className='output'>{txt}</span>
