@@ -1,8 +1,8 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 
-const ScrollIndicator = () => (
-    <div className='scroll-indicator'>
+const ScrollIndicator = ({ scrollToAbout }) => (
+    <div className='scroll-indicator' onClick={scrollToAbout}>
         <span>&#9660;</span>
     </div>
 );
@@ -55,7 +55,7 @@ const DesktopLanding = ({ scrollToContact, lastLogin, txt }) => (
                     >
                         <span className='prompt'>16Bocchi@github ~ %</span>
                     </a>
-                    <span className='command'>echo I am a: </span>
+                    <span className='command'> echo I am a: </span>
                     <span className='output'>{txt}</span>
                     <span className='cursor'>_</span>
                 </p>
@@ -88,13 +88,14 @@ const MobileLanding = ({ scrollToContact, lastLogin, txt }) => (
                     target='_blank'
                     rel='noopener noreferrer'
                 >
-                    <span className='prompt'>16Bocchi@github ~ % </span>
+                    <span className='prompt'>16Bocchi@github ~ %</span>
                 </a>
-                <span className='command'>echo I am a: </span>
+                <span className='command'> echo I am a: </span>
                 <span className='output'>{txt}</span>
                 <span className='cursor'>_</span>
             </p>
         </div>
+        <br></br>
         <Row className='card-box-mobile'>
             <button
                 className='btn btn-outline-primary'
@@ -193,6 +194,13 @@ export const Landing = () => {
         }
     };
 
+    const scrollToAbout = () => {
+        const aboutSection = document.getElementById("about");
+        if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <section className='landing' id='landing'>
             <Container>
@@ -210,7 +218,7 @@ export const Landing = () => {
                     />
                 )}
             </Container>
-            <ScrollIndicator />
+            {!isMobile && <ScrollIndicator scrollToAbout={scrollToAbout} />}
         </section>
     );
 };

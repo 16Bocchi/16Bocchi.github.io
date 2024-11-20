@@ -14,7 +14,7 @@ html {
 }
 
 body {
-  background-color: #f5f5f5 !important;
+  background-color: #e4e4e4 !important;
   color: #424242 !important;
   overflow-x: hidden;
   position: relative;
@@ -124,10 +124,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   height: 100vh;
   padding: 250px 0;
-  background-image: url('./assets/images/background.jpeg');
-  background-position: top center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .landing .tagLine {
@@ -179,7 +175,27 @@ nav.navbar {
 }
 
 .App {
+  position: relative;
+  height: 100vh;
+  background-image: url('./assets/images/background.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Ensures a parallax effect */
   text-align: center;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .App {
+    background-size: cover; /* Adjust scaling for smaller screens */
+    background-attachment: scroll; /* Disable fixed parallax on mobile for better performance */
+  }
+}
+
+section {
+  position: relative;
+  z-index: 2; /* Ensure sections appear above the background */
 }
 
 .App-logo {
@@ -457,6 +473,11 @@ textarea:focus {
 
 .cube-col {
   margin-top: 50px;
+}
+@media (max-width: 768px) {
+  .cube-col {
+    padding-top: 100px;
+  }
 }
 
 .scroll-indicator {

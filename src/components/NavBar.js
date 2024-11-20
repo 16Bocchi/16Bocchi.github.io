@@ -6,28 +6,41 @@ export const NavBar = () => {
     const [scrollLock, setScrollLock] = useState(false); // Lock to manage scroll during link clicks
 
     useEffect(() => {
-        // Initialize Intersection Observer to watch each section
-        const sections = document.querySelectorAll("section");
+        const sections = Array.from(document.querySelectorAll("section"));
+        const bottomBar = document.getElementById("bottom-bar");
 
         const observerOptions = {
             root: null,
             rootMargin: "0px",
-            threshold: 0.6, // Trigger when 60% of the section is visible
+            threshold: 0.6, // Trigger when 60% of a section is visible
         };
 
         const observer = new IntersectionObserver((entries) => {
-            if (scrollLock) return; // Skip if a link click is active
+            if (scrollLock) return; // Skip updates during link clicks
+
+            let lastVisibleSection = null;
 
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    setActiveLink(entry.target.id);
+                    lastVisibleSection = entry.target.id;
                 }
             });
+
+            if (lastVisibleSection && lastVisibleSection !== "bottom-bar") {
+                setActiveLink(lastVisibleSection);
+            }
+
+            // Special case: Ensure 'contact' remains active when BottomBar is visible
+            if (
+                bottomBar &&
+                bottomBar.getBoundingClientRect().top <= window.innerHeight
+            ) {
+                setActiveLink("contact");
+            }
         }, observerOptions);
 
         sections.forEach((section) => observer.observe(section));
 
-        // Cleanup observer on unmount
         return () => {
             observer.disconnect();
         };
@@ -39,22 +52,23 @@ export const NavBar = () => {
 
         const targetSection = document.getElementById(link);
         if (targetSection) {
-            window.scrollTo({
-                top: targetSection.offsetTop,
+            // Use scrollIntoView for better cross-browser behavior
+            targetSection.scrollIntoView({
                 behavior: "smooth",
+                block: "start", // Aligns the section at the top of the viewport
             });
         }
 
+        // Unlock scrolling after the animation duration (adjust timeout as needed)
         setTimeout(() => {
             setScrollLock(false);
-        }, 500); // Adjust this delay to match scroll duration
+        }, 600); // Duration in milliseconds, matching scrollIntoView smooth behavior
     };
 
     return (
         <Navbar expand='lg' className='bg-body-tertiary d-none d-lg-block'>
             <Nav className='flex-column'>
                 <Nav.Link
-                    href='#landing'
                     className={
                         activeLink === "landing"
                             ? "active navbar-link"
@@ -65,7 +79,6 @@ export const NavBar = () => {
                     <i className='fas fa-circle'></i>
                 </Nav.Link>
                 <Nav.Link
-                    href='#about'
                     className={
                         activeLink === "about"
                             ? "active navbar-link"
@@ -76,7 +89,6 @@ export const NavBar = () => {
                     <i className='fas fa-circle'></i>
                 </Nav.Link>
                 <Nav.Link
-                    href='#projects'
                     className={
                         activeLink === "projects"
                             ? "active navbar-link"
@@ -87,7 +99,6 @@ export const NavBar = () => {
                     <i className='fas fa-circle'></i>
                 </Nav.Link>
                 <Nav.Link
-                    href='#contact'
                     className={
                         activeLink === "contact"
                             ? "active navbar-link"

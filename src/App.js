@@ -16,10 +16,18 @@ function App() {
         <div className='App'>
             <NavBar />
             <Landing />
-            <About />
-            <Projects />
-            <Contact />
-            <BottomBar />
+            <section>
+                <About />
+            </section>
+            <section>
+                <Projects />
+            </section>
+            <section>
+                <Contact />
+            </section>
+            <section>
+                <BottomBar id='bottom-bar' />
+            </section>
         </div>
     );
 }
